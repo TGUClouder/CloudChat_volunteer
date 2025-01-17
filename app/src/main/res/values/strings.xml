@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">CloudChat_user</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <!-- 这里绑定navigation view的名称 -->
+    <string name="app_name">云启乡翼志愿者端</string>
+    <string name="title_lecture">互动讲题</string>
+    <string name="title_workshop">科普课堂</string>
+    <string name="title_sanctuary">心灵树洞</string>
+    <string name="title_account">个人中心</string>
 </resources>

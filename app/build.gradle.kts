@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cloudchat_user"
+    namespace = "com.example.cloudchat_volunteer"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.cloudchat_user"
+        applicationId = "com.example.cloudchat_volunteer"
         minSdk = 29
         targetSdk = 35
         versionCode = 1
