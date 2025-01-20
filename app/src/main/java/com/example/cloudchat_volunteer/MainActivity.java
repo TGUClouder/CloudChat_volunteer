@@ -2,7 +2,6 @@ package com.example.cloudchat_volunteer;
 
 import android.os.Bundle;
 
-import com.example.cloudchat_volunteer.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.cloudchat_volunteer.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,13 +19,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        //
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_lecture, R.id.navigation_workshop, R.id.navigation_sanctuary, R.id.navigation_account)
                 .build();
