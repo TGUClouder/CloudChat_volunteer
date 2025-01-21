@@ -1,4 +1,4 @@
-package com.example.cloudchat_user.ui.mind_sanctuary;
+package com.example.cloudchat_volunteer.ui.mind_sanctuary;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
