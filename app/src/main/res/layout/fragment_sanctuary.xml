@@ -4,20 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mind_sanctuary.SanctuaryFragment">
-    <!--context绑定ui逻辑-->
-
-    <TextView
-        android:id="@+id/text_sanctuary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    android:background="@drawable/background"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:id="@+id/tree_section"
+        android:layout_width="321dp"
+        android:layout_height="379dp"
+        android:layout_marginBottom="176dp"
+        android:background="@drawable/tree"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_weight="1"></LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_tree_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="心灵树洞"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/tree_section"
+        app:layout_constraintStart_toStartOf="@id/tree_section"
+        app:layout_constraintTop_toBottomOf="@id/tree_section" />
 </androidx.constraintlayout.widget.ConstraintLayout>
