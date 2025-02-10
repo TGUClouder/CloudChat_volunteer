@@ -15,11 +15,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.cloudchat_volunteer.R;
+import com.example.cloudchat_volunteer.ui.live.LiveActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +36,6 @@ public class LectureFragment extends Fragment {
     private List<Map<String, String>> orderData;
     private OrderAdapter orderAdapter;
     private String newLink = "https://www.newlink.com"; // 新链接的URL
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,14 +59,14 @@ public class LectureFragment extends Fragment {
         // 添加头视图
         View headerView = inflater.inflate(R.layout.list_item, null);
         TextView idText = headerView.findViewById(R.id.idText);
-        TextView linkText = headerView.findViewById(R.id.linkText);
+        TextView linkTextView = headerView.findViewById(R.id.linkText);
         TextView gradeText = headerView.findViewById(R.id.gradeText);
         TextView subjectText = headerView.findViewById(R.id.subjectText);
         TextView acceptText = headerView.findViewById(R.id.acceptText);
         Button acceptButton = headerView.findViewById(R.id.acceptButton);
 
         idText.setText("ID");
-        linkText.setText("链接");
+        linkTextView.setText("链接");
         gradeText.setText("年级");
         subjectText.setText("科目");
         acceptText.setText("接单");
@@ -87,7 +88,7 @@ public class LectureFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
             Button acceptButton = view.findViewById(R.id.acceptButton);
-            TextView linkText = view.findViewById(R.id.linkText);
+            TextView linkTextView = view.findViewById(R.id.linkText);
 
             // 设置链接文本为可点击
             String link = orderData.get(position).get("link");
@@ -95,18 +96,17 @@ public class LectureFragment extends Fragment {
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com"));
-                    startActivity(intent);
+                    openLink("https://www.baidu.com");
                 }
             };
             spannableString.setSpan(clickableSpan, 0, link.length(), 0);
             spannableString.setSpan(new UnderlineSpan(), 0, link.length(), 0);
-            linkText.setText(spannableString);
-            linkText.setMovementMethod(LinkMovementMethod.getInstance()); // 使文本可点击
+            linkTextView.setText(spannableString);
+            linkTextView.setMovementMethod(LinkMovementMethod.getInstance()); // 使文本可点击
 
             acceptButton.setOnClickListener(v -> {
-                linkText.setVisibility(View.VISIBLE);
-                linkText.setText("新链接: " + newLink);
+                linkTextView.setVisibility(View.VISIBLE);
+                linkTextView.setText("新链接: " + newLink);
                 countdownText.setVisibility(View.VISIBLE);
                 startCountdown();
                 // 设置新链接文本为可点击
@@ -114,16 +114,14 @@ public class LectureFragment extends Fragment {
                 ClickableSpan newLinkClickableSpan = new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newLink));
-                        startActivity(intent);
+                        openLink(newLink);
                     }
                 };
                 newLinkSpannableString.setSpan(newLinkClickableSpan, 0, newLinkSpannableString.length(), 0);
                 newLinkSpannableString.setSpan(new UnderlineSpan(), 0, newLinkSpannableString.length(), 0);
-                linkText.setText(newLinkSpannableString);
-                linkText.setMovementMethod(LinkMovementMethod.getInstance()); // 使文本可点击
+                linkTextView.setText(newLinkSpannableString);
+                linkTextView.setMovementMethod(LinkMovementMethod.getInstance()); // 使文本可点击
             });
-
 
             return view;
         }
@@ -140,9 +138,32 @@ public class LectureFragment extends Fragment {
             public void onFinish() {
                 countdownText.setText("开始");
                 // 倒计时结束后自动跳转到新链接
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newLink));
+                Intent intent = new Intent(getActivity(), LiveActivity.class);
+                intent.putExtra("url", newLink); // 传递 URL 参数
                 startActivity(intent);
             }
         }.start();
     }
+
+    private void openLink(String url) {
+        try {
+            // 检查 URL 是否是外部链接
+            if (url.equals(newLink)) {
+                // 如果是新链接，跳转到 LiveActivity
+                Intent intent = new Intent(getActivity(), LiveActivity.class);
+                intent.putExtra("url", url); // 传递 URL 参数
+                startActivity(intent);
+            } else {
+                // 使用浏览器打开外部链接
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 提示用户检查链接或网络问题
+            Toast.makeText(getActivity(), "无法打开链接，请检查链接或网络设置", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }
