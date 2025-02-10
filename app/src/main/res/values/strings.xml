@@ -15,8 +15,10 @@
         <item>六年级</item>
     </string-array>
 
+    <string name="toggle_orientation_desc">切换屏幕方向</string>
     <string name="title_diary">心情日记</string>
     <string name="title_tree">心灵树洞</string>
+    <string name="switch_camera_desc">切换摄像头</string>
 </resources>
 
 
