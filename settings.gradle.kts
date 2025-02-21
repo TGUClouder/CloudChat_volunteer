@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CloudChat_user"
+rootProject.name = "CloudChat_volunteer"
 include(":app")

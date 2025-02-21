@@ -56,21 +56,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
-            android:id="@+id/et_chat_input"
-            android:layout_width="300dp"
-            android:layout_height="55dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:hint="输入文字、语音或图片"
-            android:padding="8dp" />
-
         <Button
             android:id="@+id/btn_submit_tree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提交" />
+            android:layout_marginLeft="150dp"
+            android:text="开始聊天" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
