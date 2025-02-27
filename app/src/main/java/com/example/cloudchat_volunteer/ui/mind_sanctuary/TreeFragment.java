@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,19 +68,11 @@ public class TreeFragment extends Fragment {
         });
 
         // 获取输入框和提交按钮
-        EditText etInput = view.findViewById(R.id.et_chat_input); // 确保类型是 EditText
+
         Button btnSubmit = view.findViewById(R.id.btn_submit_tree);
 
         // 提交按钮点击事件
         btnSubmit.setOnClickListener(v -> {
-            // 获取输入框内容
-            String inputContent = etInput.getText().toString().trim(); // getText() 返回 Editable 对象，再调用 toString()
-
-            // 检查输入框是否为空
-            if (inputContent.isEmpty()) {
-                Toast.makeText(getContext(), "请输入内容", Toast.LENGTH_SHORT).show();
-                return; // 结束点击事件
-            }
 
             // 检查是否选择了用户
             int selectedPosition = userAdapter.getSelectedPosition();
@@ -90,12 +83,11 @@ public class TreeFragment extends Fragment {
 
             // 获取选中的用户信息
             User selectedUser = userList.get(selectedPosition);
-            String message = "选择的用户: " + selectedUser.getName() + ", 年级: " + selectedUser.getGrade() + ", 兴趣: " + selectedUser.getHobby() +
-                    "\n输入内容: " + inputContent + "   提交成功";
+            String message = "选择的用户: " + selectedUser.getName() + ", 年级: " + selectedUser.getGrade() + ", 兴趣: " + selectedUser.getHobby() + " 提交成功";
+            Navigation.findNavController(v).navigate(R.id.action_treeFragment_to_chatFragment);
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
             // 清空输入框内容
-            etInput.setText("");
         });
 
         return view;

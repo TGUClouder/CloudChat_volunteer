@@ -1,7 +1,6 @@
 package com.example.cloudchat_volunteer.ui.science_workshop;
 
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -25,8 +24,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cloudchat_volunteer.R;
+
 import com.example.cloudchat_volunteer.adapter.VoteAdapter;
 import com.example.cloudchat_volunteer.dao.VotesDao;
+
 import com.example.cloudchat_volunteer.databinding.FragmentWorkshopBinding;
 import com.example.cloudchat_volunteer.itemdecoration.VoteDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -61,15 +62,18 @@ public class WorkshopFragment extends Fragment {
 
 
         // 组件
+
         final Button button_vote = binding.voteButton;
         final TextView textView = binding.textPushing;
         final ImageView imageView_live = binding.liveImageview;
+
 
 
         // 动作绑定
         GetPushingMessage("暂无消息");
 
         button_vote.setOnClickListener(this::ShowVotes);
+
         imageView_live.setOnClickListener(this::ShowLive);
         textView.setOnClickListener(this::ShowPushing);
 
@@ -78,6 +82,42 @@ public class WorkshopFragment extends Fragment {
 //        workshopViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
+    }
+
+    // GetTextPushingFromDatabase
+
+    private void GetPushingMessage(){
+        String message = "后续实现消息获取";
+        this.binding.textPushing.setText(message);
+    }
+
+    private void ShowVoteDialog(View v) {
+        View view = getLayoutInflater().inflate(R.layout.custom_dialog, null);
+        final EditText editText = (EditText) view.findViewById(R.id.dialog_edit);
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setIcon(R.mipmap.app_icon)//设置标题的图片
+                .setTitle("半自定义对话框")//设置对话框的标题
+                .setView(view)
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String content = editText.getText().toString();
+                        Toast.makeText(getContext(), content, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
+
+    }
+
+    private void ShowLive(View v) {
+        Toast.makeText(getContext(), "后续实现跳转直播", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.cloudchat_volunteer.dao;
 
+
 import androidx.annotation.NonNull;
 
 import com.example.cloudchat_volunteer.json.ErrorResponse;
@@ -9,6 +10,7 @@ import com.example.cloudchat_volunteer.json.PasswordResponse;
 import com.example.cloudchat_volunteer.json.StatusResponse;
 import com.example.cloudchat_volunteer.json.UserInfoResponse;
 import com.google.gson.Gson;
+
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -59,7 +61,9 @@ public final class VolunteerDao {
     // 获取用户信息
     public static ArrayList<String> get_userinfo(String username)throws IOException{
         ArrayList<String> arrayList = new ArrayList<>();
+
         String appendURL = "user_info?accountType=volunteer&accountName="+username;
+
         Request request = new Request.Builder()
                 .url(baseURL+appendURL)
                 .build();
@@ -128,6 +132,7 @@ public final class VolunteerDao {
 
 
     // 更新密码
+
     public static String update_password(String username, String new_password) throws IOException{
         String appendURL = "accountType=volunteer&accountName="+username+"&password="+new_password;
         Request request = new Request.Builder()
@@ -145,10 +150,12 @@ public final class VolunteerDao {
                     StatusResponse statusResponse = gson.fromJson(string, StatusResponse.class);
 
                     return statusResponse.getMessage().getStatus();
+
                 }
 
             } else {
                 System.out.println("Request failed: " + response.code());
+
             }
         }
         return "ConnectionFailed";
@@ -182,6 +189,7 @@ public final class VolunteerDao {
             }
         }
         return "ConnectionFailed";
+
 
     }
 
@@ -246,6 +254,7 @@ public final class VolunteerDao {
         return "name="+username+"&type=volunteer&f="+f_name+"&l="+l_name+"&a="+age+"&e="+email+"&g="+gender+"&d="+degree+"&b="+birthday+"&h="+hobby+"&grade="+grade;
 
     }
+
 
     public static void shutdown(){}
 
