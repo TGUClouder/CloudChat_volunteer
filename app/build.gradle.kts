@@ -1,5 +1,7 @@
+
 plugins {
     alias(libs.plugins.android.application)
+
 }
 
 android {
@@ -35,7 +37,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.okhttp)
 
 
@@ -45,7 +46,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.10.1")
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -56,4 +56,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("androidx.camera:camera-core:1.1.0")
+    implementation ("androidx.camera:camera-camera2:1.1.0")
+    implementation ("androidx.camera:camera-lifecycle:1.1.0")
+    implementation ("androidx.camera:camera-view:1.1.0")
+    implementation(libs.lifecycle.viewmodel.ktx.v231)
+    implementation(libs.lifecycle.livedata.ktx.v231)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("com.google.guava:guava:31.1-jre")
 }
