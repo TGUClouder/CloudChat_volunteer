@@ -8,21 +8,21 @@
     <!-- Lecture Fragment -->
     <fragment
         android:id="@+id/navigation_lecture"
-        android:name="com.example.cloudchat_volunteer.ui.interactive_lecture.LectureFragment"
+        android:name="com.app.cloudchat_volunteer.ui.interactive_lecture.LectureFragment"
         android:label="@string/title_lecture"
         tools:layout="@layout/fragment_lecture" />
 
     <!-- Workshop Fragment -->
     <fragment
         android:id="@+id/navigation_workshop"
-        android:name="com.example.cloudchat_volunteer.ui.science_workshop.WorkshopFragment"
+        android:name="com.app.cloudchat_volunteer.ui.science_workshop.WorkshopFragment"
         android:label="@string/title_workshop"
         tools:layout="@layout/fragment_workshop" />
 
     <!-- Sanctuary Fragment -->
     <fragment
         android:id="@+id/navigation_sanctuary"
-        android:name="com.example.cloudchat_volunteer.ui.mind_sanctuary.SanctuaryFragment"
+        android:name="com.app.cloudchat_volunteer.ui.mind_sanctuary.SanctuaryFragment"
         android:label="@string/title_sanctuary"
         tools:layout="@layout/fragment_sanctuary">
         <!-- 跳转到 TreeFragment -->
@@ -32,13 +32,13 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.example.cloudchat_volunteer.ui.mind_sanctuary.ChatFragment"
+        android:name="com.app.cloudchat_volunteer.ui.mind_sanctuary.ChatFragment"
         android:label="聊天"
         tools:layout="@layout/fragment_chat" />
     <!-- Tree Fragment -->
     <fragment
         android:id="@+id/navigation_tree"
-        android:name="com.example.cloudchat_volunteer.ui.mind_sanctuary.TreeFragment"
+        android:name="com.app.cloudchat_volunteer.ui.mind_sanctuary.TreeFragment"
         android:label="@string/title_tree"
         tools:layout="@layout/fragment_tree">
 
@@ -53,7 +53,7 @@
     <!-- Account Fragment -->
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.cloudchat_volunteer.ui.my_account.AccountFragment"
+        android:name="com.app.cloudchat_volunteer.ui.my_account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
 </navigation>

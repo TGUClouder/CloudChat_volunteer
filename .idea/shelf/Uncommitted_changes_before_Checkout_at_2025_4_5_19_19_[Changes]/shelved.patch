@@ -1,0 +1,48 @@
+Index: app/src/main/res/layout/activity_live.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <!-- 顶部居中的 TextView -->\r\n    <TextView\r\n        android:id=\"@+id/liveText\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"直播\"\r\n        android:textSize=\"18sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"16dp\" />\r\n\r\n    <!-- 用于显示摄像头内容的 PreviewView -->\r\n    <androidx.camera.view.PreviewView\r\n        android:id=\"@+id/previewView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_below=\"@id/liveText\"\r\n        android:layout_marginTop=\"8dp\" />\r\n\r\n    <!-- 横屏切换图标 -->\r\n    <ImageButton\r\n        android:id=\"@+id/toggleOrientationButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:src=\"@drawable/baseline_crop_free_24\"\r\n        android:contentDescription=\"@string/toggle_orientation_desc\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_margin=\"16dp\" />\r\n    <!--镜头反转-->\r\n    <ImageButton\r\n        android:id=\"@+id/switchCameraButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:src=\"@drawable/ic_switch_camera\"\r\n        android:contentDescription=\"@string/switch_camera_desc\"\r\n        android:rotation=\"180\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_margin=\"16dp\" />\r\n\r\n</RelativeLayout>\r\n
+===================================================================
+diff --git a/app/src/main/res/layout/activity_live.xml b/app/src/main/res/layout/activity_live.xml
+--- a/app/src/main/res/layout/activity_live.xml	(revision a7403adee37c20a7eb4859f68b4437772453e303)
++++ b/app/src/main/res/layout/activity_live.xml	(date 1741852479963)
+@@ -3,22 +3,10 @@
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+ 
+-    <!-- 顶部居中的 TextView -->
+-    <TextView
+-        android:id="@+id/liveText"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="直播"
+-        android:textSize="18sp"
+-        android:layout_centerHorizontal="true"
+-        android:layout_marginTop="16dp" />
+-
+-    <!-- 用于显示摄像头内容的 PreviewView -->
+-    <androidx.camera.view.PreviewView
+-        android:id="@+id/previewView"
++    <SurfaceView
++        android:id="@+id/surfaceView"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:layout_below="@id/liveText"
+         android:layout_marginTop="8dp" />
+ 
+     <!-- 横屏切换图标 -->
+@@ -43,4 +31,14 @@
+         android:layout_alignParentEnd="true"
+         android:layout_margin="16dp" />
+ 
++    <Button
++        android:id="@+id/startStreaming"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="开始推流"
++        android:layout_alignParentBottom="true"
++        android:layout_marginBottom="20dp"
++        android:layout_centerHorizontal="true"/>
++
++
+ </RelativeLayout>
