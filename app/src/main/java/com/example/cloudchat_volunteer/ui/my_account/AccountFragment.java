@@ -1,6 +1,5 @@
 package com.example.cloudchat_volunteer.ui.my_account;
 
-
 import static com.example.cloudchat_volunteer.dao.VolunteerDao.get_password;
 import static com.example.cloudchat_volunteer.dao.VolunteerDao.get_userinfo;
 import static com.example.cloudchat_volunteer.dao.VolunteerDao.update_password;
@@ -9,7 +8,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,9 +21,7 @@ import com.example.cloudchat_volunteer.R;
 import com.example.cloudchat_volunteer.dao.VolunteerDao;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
-
 
 public class AccountFragment extends Fragment {
 
@@ -38,7 +34,6 @@ public class AccountFragment extends Fragment {
     private Button manageInfoButton;
     private Button changePasswordButton;
     private Button logoutButton;  // 添加注销按钮
-
     private Button signOutButton; // 退出登录按钮
     private String username = "user123"; // 默认用户名
     private SharedPreferences sharedPreferences;
@@ -46,17 +41,14 @@ public class AccountFragment extends Fragment {
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     private static final String KEY_USERNAME = "username";
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // 加载 fragment_account.xml 布局
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
-
         // 初始化 SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-
 
         // 初始化视图
         loginLayout = view.findViewById(R.id.loginLayout);
@@ -68,7 +60,6 @@ public class AccountFragment extends Fragment {
         manageInfoButton = view.findViewById(R.id.manageInfoButton);
         changePasswordButton = view.findViewById(R.id.changePasswordButton);
         logoutButton = view.findViewById(R.id.logoutButton);  // 绑定注销按钮
-
         signOutButton = view.findViewById(R.id.signOutButton); // 绑定退出登录按钮
 
         // 检查登录状态
@@ -80,20 +71,13 @@ public class AccountFragment extends Fragment {
         // 注册按钮监听器
         registerButton.setOnClickListener(v -> showRegisterDialog());
 
-
         // 个人信息管理按钮
         manageInfoButton.setOnClickListener(v -> showManageInfoDialog());
         changePasswordButton.setOnClickListener(v -> showOldPasswordDialog());
         logoutButton.setOnClickListener(v -> logout());
-
         signOutButton.setOnClickListener(v -> handleSignOut());
-
         return view;
     }
-    private void showManageInfoDialog() {
-        // 创建个人信息管理弹窗
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_manage_info, null);
-
 
     private void checkLoginState() {
         boolean isLoggedIn = sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false);
@@ -274,7 +258,6 @@ public class AccountFragment extends Fragment {
                 showToast("获取用户信息失败：" + e.getMessage());
             }
         }).start();
-
     }
     // 显示旧密码验证弹窗
     private void showOldPasswordDialog() {
@@ -289,7 +272,6 @@ public class AccountFragment extends Fragment {
 
         verifyButton.setOnClickListener(v -> {
             String oldPassword = oldPasswordInput.getText().toString().trim();
-
             if (oldPassword.isEmpty()) {
                 Toast.makeText(getContext(), "请输入旧密码", Toast.LENGTH_SHORT).show();
                 return;
@@ -339,18 +321,15 @@ public class AccountFragment extends Fragment {
                     );
                 }
             }).start();
-
         });
 
         dialog.show();
     }
 
 
-
     // 显示新密码设置弹窗
     private void showNewPasswordDialog(AlertDialog oldPasswordDialog) {
         oldPasswordDialog.dismiss();
-
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_new_password, null);
         EditText newPasswordInput = dialogView.findViewById(R.id.newPasswordInput);
         EditText confirmPasswordInput = dialogView.findViewById(R.id.confirmPasswordInput);
@@ -363,7 +342,6 @@ public class AccountFragment extends Fragment {
         submitButton.setOnClickListener(v -> {
             String newPassword = newPasswordInput.getText().toString().trim();
             String confirmPassword = confirmPasswordInput.getText().toString().trim();
-
 
             if (newPassword.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(getContext(), "请输入新密码", Toast.LENGTH_SHORT).show();
@@ -413,11 +391,11 @@ public class AccountFragment extends Fragment {
                     }
                 }
             }).start();
-
         });
 
         dialog.show();
     }
+
 
     // 显示登录弹窗
     private void showLoginDialog() {
@@ -439,7 +417,6 @@ public class AccountFragment extends Fragment {
             // 获取输入的用户名和密码
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
-
 
             // 检查账号和密码是否为空
             if (username.isEmpty() || password.isEmpty()) {
@@ -480,12 +457,10 @@ public class AccountFragment extends Fragment {
                     showToast("登录异常: " + e.getMessage());
                 }
             }).start();
-
         });
 
         // 显示弹窗
         dialog.show();
-
     }
 
     // 显示 Toast，确保在 UI 线程运行
@@ -658,6 +633,5 @@ public class AccountFragment extends Fragment {
         userLayout.setVisibility(View.GONE);
         Toast.makeText(getContext(), "已退出登录", Toast.LENGTH_SHORT).show();
     }
-
 
 }

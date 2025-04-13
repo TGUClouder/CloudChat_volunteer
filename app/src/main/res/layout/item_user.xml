@@ -1,33 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="#EDD9D9"
-    android:foreground="?attr/selectableItemBackground">
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <!-- 用户信息文本 -->
     <TextView
-        android:id="@+id/tv_user_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:textColor="#000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rb_select_user"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <!-- 单选按钮 -->
-    <RadioButton
-        android:id="@+id/rb_select_user"
+        android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:text="姓名"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_user_grade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="年级"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_user_hobby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="兴趣"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_user_diary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="日记"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:maxLines="3"
+        android:ellipsize="end"/>
+</LinearLayout>
