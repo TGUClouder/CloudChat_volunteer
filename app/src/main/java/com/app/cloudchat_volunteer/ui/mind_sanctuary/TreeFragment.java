@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.cloudchat_volunteer.R;
 import com.app.cloudchat_volunteer.adapter.UserAdapter;
+
 import com.app.cloudchat_volunteer.dao.DiaryDao;
 
 import org.json.JSONException;
@@ -28,16 +29,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class TreeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<Map<String, String>> userList = new ArrayList<>();
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tree, container, false);
+
 
         recyclerView = view.findViewById(R.id.rv_user_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -91,6 +95,7 @@ public class TreeFragment extends Fragment {
                     + ", 年级: " + selectedUser.get("grade") + ", 兴趣: " + selectedUser.get("hobby") + " 提交成功";
             Navigation.findNavController(v).navigate(R.id.action_treeFragment_to_chatFragment);
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+
         });
 
         return view;

@@ -1,15 +1,18 @@
 package com.app.cloudchat_volunteer.adapter;
 
+
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.cloudchat_volunteer.R;
+
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private int selectedPosition = RecyclerView.NO_POSITION; // 选中的位置
 
     public UserAdapter(List<Map<String, String>> userList) {
+
         this.userList = userList;
     }
 
@@ -31,6 +35,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+
         Map<String, String> user = userList.get(position);
 
         holder.textViewName.setText(user.get("first_name") + " " + user.get("last_name"));
@@ -59,6 +64,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         } else {
             holder.itemView.setBackgroundColor(Color.WHITE);
         }
+
     }
 
     @Override
@@ -82,4 +88,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public int getSelectedPosition() {
         return selectedPosition;
     }
+
 }

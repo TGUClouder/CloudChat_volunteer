@@ -11,6 +11,7 @@ public class User {
         this.grade = grade;
         this.hobby = hobby;
         this.diary = diary;
+
     }
 
     public String getName() {

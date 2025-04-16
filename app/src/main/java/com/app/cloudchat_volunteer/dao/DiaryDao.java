@@ -56,7 +56,8 @@ public final class DiaryDao {
     }
 
     // 获取所有日记
-    public static ArrayList<HashMap<String, String>>  get_all_diary() throws IOException, JSONException {
+
+    public static ArrayList<HashMap<String, String>> get_all_diary() throws IOException, JSONException {
         String appendURL = "?option=all&name=null";
 
         ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
@@ -130,6 +131,35 @@ public final class DiaryDao {
             }
         }
         return "ConnectionFailed";
+    }
+
+
+    // 根据用户名删除日记,返回状态
+    public static String delete_diary(String username) throws IOException{
+        String appendURL = "?username="+username;
+        Request request = new Request.Builder()
+                .url(baseURL+tableUrl_v+appendURL)
+                .delete()
+                .build();
+
+        try(Response response = okHttpClient.newCall(request).execute()){
+            if (response.isSuccessful() && response.body() != null) {
+                String string = response.body().string();
+                Gson gson = new Gson();
+                if(string.contains("error")){
+                    ErrorResponse errorResponse = gson.fromJson(string, ErrorResponse.class);
+                    return errorResponse.getError();
+                }else{
+                    StatusResponse statusResponse = gson.fromJson(string, StatusResponse.class);
+                    return statusResponse.getMessage().getStatus();
+                }
+
+            } else {
+                System.out.println("Request failed: " + response.code());
+            }
+        }
+        return "ConnectionFailed";
+
     }
 
     // 更新日记,返回状态

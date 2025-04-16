@@ -2,6 +2,7 @@ package com.app.cloudchat_volunteer.model;
 
 import android.graphics.Bitmap;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,11 +11,14 @@ public class ChatMessage {
     private boolean isSent;
     private String imageUrl;
     private Bitmap imageBitmap;
+
     private String time;  // 新增字段用于存储时间
+
 
     public ChatMessage(String content, boolean isSent) {
         this.content = content;
         this.isSent = isSent;
+
         this.time = getCurrentTime();  // 初始化时自动设置时间
     }
 
@@ -22,6 +26,7 @@ public class ChatMessage {
     private String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(new Date());
+
     }
 
     public String getContent() {
@@ -36,6 +41,7 @@ public class ChatMessage {
         return imageUrl;
     }
 
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
@@ -45,6 +51,7 @@ public class ChatMessage {
     }
 
     // 获取图片 Bitmap
+
     public Bitmap getImageBitmap() {
         return imageBitmap;
     }
@@ -59,3 +66,4 @@ public class ChatMessage {
         this.time = time;
     }
 }
+

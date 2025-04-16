@@ -1,3 +1,4 @@
+
 <resources>
     <!-- 这里绑定navigation view的名称 -->
     <string name="app_name">云启乡翼志愿者端</string>
@@ -17,10 +18,12 @@
         <item>八年级</item>
         <item>九年级</item>
     </string-array>
-
+  
+    <string name="toggle_orientation_desc">切换屏幕方向</string>
     <string name="title_diary">心情日记</string>
     <string name="title_tree">心灵树洞</string>
+    <string name="switch_camera_desc">切换摄像头</string>
+
+
 </resources>
-
-
 

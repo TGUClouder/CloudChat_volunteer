@@ -3,6 +3,8 @@ package com.app.cloudchat_volunteer.ui.science_workshop;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,6 +32,8 @@ import com.app.cloudchat_volunteer.dao.VotesDao;
 
 import com.app.cloudchat_volunteer.databinding.FragmentWorkshopBinding;
 import com.app.cloudchat_volunteer.itemdecoration.VoteDecoration;
+import com.app.cloudchat_volunteer.ui.live.InteractiveActivity;
+import com.app.cloudchat_volunteer.ui.live.LiveActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
@@ -47,6 +51,7 @@ public class WorkshopFragment extends Fragment {
     private WorkshopViewModel workshopViewModel;
     private VoteAdapter adapter;
     private String USERNAME = "vote_admin";
+    private String theme;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -84,40 +89,36 @@ public class WorkshopFragment extends Fragment {
         return root;
     }
 
-    // GetTextPushingFromDatabase
 
-    private void GetPushingMessage(){
-        String message = "后续实现消息获取";
-        this.binding.textPushing.setText(message);
-    }
-
-    private void ShowVoteDialog(View v) {
-        View view = getLayoutInflater().inflate(R.layout.custom_dialog, null);
-        final EditText editText = (EditText) view.findViewById(R.id.dialog_edit);
-        AlertDialog dialog = new AlertDialog.Builder(getContext())
-                .setIcon(R.mipmap.app_icon)//设置标题的图片
-                .setTitle("半自定义对话框")//设置对话框的标题
-                .setView(view)
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+    private void ShowLive(View v) {
+        final String[] items = {"科学科普", "生活科普", "健康科普", "其他"};
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                .setIcon(R.mipmap.app_icon)
+                .setTitle("请输入直播分区")
+                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                        theme = items[which];
                     }
                 })
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String content = editText.getText().toString();
-                        Toast.makeText(getContext(), content, Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+
+                        Intent intent = new Intent(getActivity(), LiveActivity.class);
+                        intent.putExtra("theme_", theme); // 传递 URL 参数
+                        startActivity(intent);
                     }
-                }).create();
-        dialog.show();
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-    }
+                    }
+                })
+                .create();
+        alertDialog.show();
 
-    private void ShowLive(View v) {
-        Toast.makeText(getContext(), "后续实现跳转直播", Toast.LENGTH_SHORT).show();
     }
 
     @Override

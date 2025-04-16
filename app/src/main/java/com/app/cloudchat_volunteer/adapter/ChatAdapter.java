@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.cloudchat_volunteer.R;
@@ -33,9 +35,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
                 .inflate(R.layout.item_chat_message, parent, false);
         return new MessageViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         ChatMessage message = messages.get(position);
+
 
         // 显示时间
         holder.messageTime.setText(message.getTime());
@@ -112,6 +116,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
+
         TextView receiverMessageText, senderMessageText, messageTime;
         ImageView receiverMessageImage, senderMessageImage;
         ImageView receiverAvatar, senderAvatar;
@@ -135,6 +140,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
             senderAvatar = itemView.findViewById(R.id.senderAvatar);
         }
     }
+
 
 
 } 
