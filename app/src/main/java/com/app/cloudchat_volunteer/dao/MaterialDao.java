@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,6 +15,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.app.cloudchat_volunteer.json.*;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ public final class MaterialDao {
 
     private MaterialDao(){}
 
+
     // 获取所有链接
     public static HashMap<String, ArrayList<String>> get_all_res() throws IOException, JSONException {
         Request request = new Request.Builder()
@@ -34,12 +36,14 @@ public final class MaterialDao {
                 .build();
         HashMap<String, ArrayList<String>> hashMap =new HashMap<>();
         ArrayList<String> arrayList = new ArrayList<>();
+
         try(Response response = okHttpClient.newCall(request).execute()){
             if (response.isSuccessful() && response.body() != null) {
                 String string = response.body().string();
                 Gson gson = new Gson();
                 if(string.contains("error")){
                     ErrorResponse errorResponse = gson.fromJson(string, ErrorResponse.class);
+
                     arrayList.add(errorResponse.getError());
                     hashMap.put("error", arrayList);
                     return hashMap;
@@ -64,12 +68,14 @@ public final class MaterialDao {
                         }
                         return hashMap;
                     }
+
                 }
 
             } else {
                 System.out.println("Request failed: " + response.code());
             }
         }
+
 
         arrayList.add("ConnectionFailed");
         hashMap.put("error",arrayList);
@@ -156,4 +162,5 @@ public final class MaterialDao {
         }
         return "ConnectionFailed";
     }
+
 }

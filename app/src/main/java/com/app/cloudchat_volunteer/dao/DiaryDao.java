@@ -56,6 +56,7 @@ public final class DiaryDao {
     }
 
     // 获取所有日记
+
     public static ArrayList<HashMap<String, String>> get_all_diary() throws IOException, JSONException {
         String appendURL = "?option=all&name=null";
 
@@ -131,6 +132,7 @@ public final class DiaryDao {
         }
         return "ConnectionFailed";
     }
+
 
     // 根据用户名删除日记,返回状态
     public static String delete_diary(String username) throws IOException{

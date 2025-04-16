@@ -1,12 +1,15 @@
 package com.app.cloudchat_volunteer;
 
+
 import android.Manifest;
 import android.content.pm.PackageManager;
+
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.BLUETOOTH_CONNECT
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

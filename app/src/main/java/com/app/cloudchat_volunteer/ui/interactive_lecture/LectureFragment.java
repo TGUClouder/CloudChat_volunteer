@@ -15,14 +15,18 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
 import android.widget.Toast;
+
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.app.cloudchat_volunteer.R;
+
 import com.app.cloudchat_volunteer.ui.live.InteractiveActivity;
 import com.app.cloudchat_volunteer.ui.live.LiveActivity;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,13 +64,16 @@ public class LectureFragment extends Fragment {
         // 添加头视图
         View headerView = inflater.inflate(R.layout.list_item, null);
         TextView idText = headerView.findViewById(R.id.idText);
+
         TextView linkTextView = headerView.findViewById(R.id.linkText);
+
         TextView gradeText = headerView.findViewById(R.id.gradeText);
         TextView subjectText = headerView.findViewById(R.id.subjectText);
         TextView acceptText = headerView.findViewById(R.id.acceptText);
         Button acceptButton = headerView.findViewById(R.id.acceptButton);
 
         idText.setText("ID");
+
         linkTextView.setText("链接");
         gradeText.setText("年级");
         subjectText.setText("科目");
@@ -89,6 +96,7 @@ public class LectureFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
             Button acceptButton = view.findViewById(R.id.acceptButton);
+
             TextView linkTextView = view.findViewById(R.id.linkText);
 
             // 设置链接文本为可点击
@@ -97,11 +105,14 @@ public class LectureFragment extends Fragment {
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
+
                     openLink("https://www.baidu.com");
+
                 }
             };
             spannableString.setSpan(clickableSpan, 0, link.length(), 0);
             spannableString.setSpan(new UnderlineSpan(), 0, link.length(), 0);
+
             linkTextView.setText(spannableString);
             linkTextView.setMovementMethod(LinkMovementMethod.getInstance()); // 使文本可点击
 
@@ -115,11 +126,13 @@ public class LectureFragment extends Fragment {
                 ClickableSpan newLinkClickableSpan = new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
+
                         openLink(newLink);
                     }
                 };
                 newLinkSpannableString.setSpan(newLinkClickableSpan, 0, newLinkSpannableString.length(), 0);
                 newLinkSpannableString.setSpan(new UnderlineSpan(), 0, newLinkSpannableString.length(), 0);
+
                 linkTextView.setText(newLinkSpannableString);
                 linkTextView.setMovementMethod(LinkMovementMethod.getInstance()); // 使文本可点击
             });
@@ -129,7 +142,9 @@ public class LectureFragment extends Fragment {
     }
 
     private void startCountdown() {
+
         new CountDownTimer(6000, 1000) {
+
             @Override
             public void onTick(long millisUntilFinished) {
                 countdownText.setText("自动倒计时 " + millisUntilFinished / 1000 + " 秒后开始");
@@ -139,12 +154,15 @@ public class LectureFragment extends Fragment {
             public void onFinish() {
                 countdownText.setText("开始");
                 // 倒计时结束后自动跳转到新链接
+
                 Intent intent = new Intent(getActivity(), InteractiveActivity.class);
                 intent.putExtra("url", newLink); // 传递 URL 参数
+
                 startActivity(intent);
             }
         }.start();
     }
+
 
     private void openLink(String url) {
         try {
@@ -168,3 +186,4 @@ public class LectureFragment extends Fragment {
 
 
 }
+

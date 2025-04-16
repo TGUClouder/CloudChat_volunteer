@@ -1,6 +1,8 @@
 package com.app.cloudchat_volunteer.dao;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.app.cloudchat_volunteer.json.ErrorResponse;
@@ -13,6 +15,7 @@ import com.google.gson.Gson;
 
 
 import java.io.IOException;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -61,6 +64,7 @@ public final class VolunteerDao {
     // 获取用户信息
     public static ArrayList<String> get_userinfo(String username)throws IOException{
         ArrayList<String> arrayList = new ArrayList<>();
+
 
         String appendURL = "user_info?accountType=volunteer&accountName="+username;
 
@@ -133,6 +137,7 @@ public final class VolunteerDao {
 
     // 更新密码
 
+
     public static String update_password(String username, String new_password) throws IOException{
         String appendURL = "accountType=volunteer&accountName="+username+"&password="+new_password;
         Request request = new Request.Builder()
@@ -150,7 +155,6 @@ public final class VolunteerDao {
                     StatusResponse statusResponse = gson.fromJson(string, StatusResponse.class);
 
                     return statusResponse.getMessage().getStatus();
-
                 }
 
             } else {
@@ -189,7 +193,6 @@ public final class VolunteerDao {
             }
         }
         return "ConnectionFailed";
-
 
     }
 

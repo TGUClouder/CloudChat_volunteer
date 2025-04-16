@@ -1,25 +1,28 @@
 package com.app.cloudchat_volunteer.adapter;
 
+
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.cloudchat_volunteer.R;
-import com.app.cloudchat_volunteer.data.User;
+
 
 import java.util.List;
+import java.util.Map;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+    private List<Map<String, String>> userList;
+    private int selectedPosition = RecyclerView.NO_POSITION; // 选中的位置
 
-    private List<User> userList;
-    private int selectedPosition = -1; // 记录当前选中项的位置
+    public UserAdapter(List<Map<String, String>> userList) {
 
-    public UserAdapter(List<User> userList) {
         this.userList = userList;
     }
 
@@ -32,40 +35,36 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user = userList.get(position);
 
-        // 设置显示内容：序号 + 姓名 - 年级 - 爱好
-        String displayText = (position + 1) + ". " + user.getName() + " - " + user.getGrade() + " - " + user.getHobby();
-        holder.tvUserInfo.setText(displayText);
-        //设置点击颜色
-        if (position == selectedPosition) {
-            holder.itemView.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.selected_item_color)); // 已选中
+        Map<String, String> user = userList.get(position);
+
+        holder.textViewName.setText(user.get("first_name") + " " + user.get("last_name"));
+        holder.textViewGrade.setText("年级: " + user.get("grade"));
+        holder.textViewHobby.setText("兴趣: " + user.get("hobby"));
+
+        String diaryContent = user.get("diary");
+        if (diaryContent == null || diaryContent.isEmpty() || diaryContent.equals("null")) {
+            holder.textViewDiary.setText("日记：暂无内容");
         } else {
-            holder.itemView.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.default_item_color)); // 默认
+            holder.textViewDiary.setText("日记：" + diaryContent);
         }
-        // 设置选中状态
-        holder.itemView.setSelected(position == selectedPosition);
-        holder.radioButton.setChecked(position == selectedPosition);
 
-        // 点击整行时
+        // **点击事件**
         holder.itemView.setOnClickListener(v -> {
-            int previousPosition = selectedPosition;
-            selectedPosition = holder.getAdapterPosition();
-
-            // 刷新前一项和当前选中项
-            notifyItemChanged(previousPosition);
-            notifyItemChanged(selectedPosition);
+            int currentPosition = holder.getAdapterPosition(); // 获取实时位置
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                selectedPosition = currentPosition;
+                notifyDataSetChanged(); // 刷新选中状态
+            }
         });
 
-        // 点击单选按钮时
-        holder.radioButton.setOnClickListener(v -> {
-            int previousPosition = selectedPosition;
-            selectedPosition = holder.getAdapterPosition();
+        // **设置选中状态样式**
+        if (position == selectedPosition) {
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+        } else {
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        }
 
-            // 刷新前一项和当前选中项
-            notifyItemChanged(previousPosition);
-            notifyItemChanged(selectedPosition);
-        });
     }
 
     @Override
@@ -73,20 +72,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return userList.size();
     }
 
-    // 获取当前选中项的位置
+    // **定义 ViewHolder 内部类**
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewName, textViewGrade, textViewHobby, textViewDiary;
+
+        public UserViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textViewName = itemView.findViewById(R.id.tv_user_name);
+            textViewGrade = itemView.findViewById(R.id.tv_user_grade);
+            textViewHobby = itemView.findViewById(R.id.tv_user_hobby);
+            textViewDiary = itemView.findViewById(R.id.tv_user_diary);
+        }
+    }
+
     public int getSelectedPosition() {
         return selectedPosition;
     }
 
-    // ViewHolder 类
-    static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUserInfo; // 合并显示内容到一个 TextView
-        RadioButton radioButton;
-
-        public UserViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvUserInfo = itemView.findViewById(R.id.tv_user_info);
-            radioButton = itemView.findViewById(R.id.rb_select_user);
-        }
-    }
 }

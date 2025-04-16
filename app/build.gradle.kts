@@ -84,3 +84,4 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("com.google.guava:guava:31.1-jre")
 }
+

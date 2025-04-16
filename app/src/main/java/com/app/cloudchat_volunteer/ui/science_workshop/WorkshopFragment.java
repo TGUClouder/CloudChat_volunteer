@@ -3,6 +3,7 @@ package com.app.cloudchat_volunteer.ui.science_workshop;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -72,6 +73,7 @@ public class WorkshopFragment extends Fragment {
         final ImageView imageView_live = binding.liveImageview;
 
 
+
         // 动作绑定
         GetPushingMessage("暂无消息");
 
@@ -87,6 +89,7 @@ public class WorkshopFragment extends Fragment {
         return root;
     }
 
+
     private void ShowLive(View v) {
         final String[] items = {"科学科普", "生活科普", "健康科普", "其他"};
         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
@@ -101,6 +104,7 @@ public class WorkshopFragment extends Fragment {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         Intent intent = new Intent(getActivity(), LiveActivity.class);
                         intent.putExtra("theme_", theme); // 传递 URL 参数
                         startActivity(intent);
@@ -456,7 +460,6 @@ public class WorkshopFragment extends Fragment {
                 .create();
         dialog.show();
     }
-
 
 
 
