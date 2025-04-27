@@ -3,47 +3,88 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="#FFFFFF"
+    android:gravity="center_vertical">
 
+    <!-- ID Column -->
     <TextView
         android:id="@+id/idText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="ID" />
+        android:text="ID"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
 
+    <!-- Link Column -->
     <TextView
         android:id="@+id/linkText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:text="链接"
-        android:autoLink="web"
-        android:textColorLink="@android:color/holo_blue_light"/>
+        android:textColor="#0000FF"
+        android:textSize="14sp"
+        android:gravity="center" />
 
+    <!-- School Column -->
+    <TextView
+        android:id="@+id/schoolText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="学历"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <!-- Grade Column -->
     <TextView
         android:id="@+id/gradeText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="年级" />
+        android:text="年级"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
 
+    <!-- Subject Column -->
     <TextView
         android:id="@+id/subjectText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="科目" />
-    <TextView
-        android:id="@+id/acceptText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="接单"
-        android:visibility="gone" />
+        android:text="科目"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
 
+    <!-- Status Column -->
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="状态"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <!-- Accept Button -->
     <Button
         android:id="@+id/acceptButton"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:text="接单" />
+        android:text="接单"
+        android:textColor="#FFFFFF"
+        android:background="@color/white"
+        android:layout_marginLeft="8dp"
+        android:padding="10dp"
+        android:textSize="14sp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
 </LinearLayout>
