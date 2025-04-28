@@ -23,6 +23,7 @@ public class WorkshopViewModel extends ViewModel {
     private final MutableLiveData<Boolean> remove_switch = new MutableLiveData<>();
     private final MutableLiveData<String> vote_id = new MutableLiveData<>();
     private final MutableLiveData<String> vote_owner = new MutableLiveData<>();
+    private final MutableLiveData<Integer> rank = new MutableLiveData<>();
 
 
     private HashMap<String, ArrayList<String>> arrayListMap = null;
@@ -113,5 +114,11 @@ public class WorkshopViewModel extends ViewModel {
         return this.vote_detail;
     }
 
+    public MutableLiveData<Integer> getRank() {
+        return rank;
+    }
+    public void setRank(Integer rank_){
+        this.rank.postValue(rank_);
+    }
 
 }

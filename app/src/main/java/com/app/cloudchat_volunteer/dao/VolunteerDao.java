@@ -1,29 +1,19 @@
 package com.app.cloudchat_volunteer.dao;
-
-
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
-import com.app.cloudchat_volunteer.json.ErrorResponse;
-import com.app.cloudchat_volunteer.json.IdResponse;
-import com.app.cloudchat_volunteer.json.NullMessageResponse;
-import com.app.cloudchat_volunteer.json.PasswordResponse;
-import com.app.cloudchat_volunteer.json.StatusResponse;
-import com.app.cloudchat_volunteer.json.UserInfoResponse;
 import com.google.gson.Gson;
-
-
 import java.io.IOException;
-
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import com.app.cloudchat_volunteer.json.*;
+import com.google.gson.JsonSyntaxException;
 
 public final class VolunteerDao {
 
@@ -64,10 +54,7 @@ public final class VolunteerDao {
     // 获取用户信息
     public static ArrayList<String> get_userinfo(String username)throws IOException{
         ArrayList<String> arrayList = new ArrayList<>();
-
-
-        String appendURL = "user_info?accountType=volunteer&accountName="+username;
-
+        String appendURL = "user_info?accountName="+username;
         Request request = new Request.Builder()
                 .url(baseURL+appendURL)
                 .build();
@@ -130,41 +117,48 @@ public final class VolunteerDao {
             }
         }
         return "ConnectionFailed";
-
-
     }
 
-
     // 更新密码
-
-
-    public static String update_password(String username, String new_password) throws IOException{
-        String appendURL = "accountType=volunteer&accountName="+username+"&password="+new_password;
+    public static String update_password(String username, String new_password) throws IOException {
+        String appendURL = "accountType=volunteer&accountName=" + username + "&password=" + new_password;
         Request request = new Request.Builder()
-                .url(baseURL+tableUrl_account+"?"+appendURL)
-                .put(RequestBody.create("",null))
+                .url(baseURL + tableUrl_account + "?" + appendURL)
+                .put(RequestBody.create("", null))
                 .build();
-        try(Response response = okHttpClient.newCall(request).execute()){
-            if (response.isSuccessful() && response.body() != null) {
-                String string = response.body().string();
-                Gson gson = new Gson();
-                if(string.contains("error")){
-                    ErrorResponse errorResponse = gson.fromJson(string, ErrorResponse.class);
-                    return errorResponse.getError();
-                }else{
-                    StatusResponse statusResponse = gson.fromJson(string, StatusResponse.class);
 
-                    return statusResponse.getMessage().getStatus();
+        try (Response response = okHttpClient.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                String string = response.body().string().trim();
+                if (string.isEmpty()) {
+                    System.out.println("Server returned empty response");
+                    return "EmptyResponse";
+                }
+                try {
+                    Gson gson = new Gson();
+                    if (string.contains("error")) {
+                        ErrorResponse errorResponse = gson.fromJson(string, ErrorResponse.class);
+                        return errorResponse.getError();
+                    } else {
+                        StatusResponse statusResponse = gson.fromJson(string, StatusResponse.class);
+                        return statusResponse.getMessage().getStatus();
+                    }
+                } catch (JsonSyntaxException e) {
+                    System.out.println("JSON Parsing Error: " + e.getMessage());
+                    System.out.println("Server Response: " + string);
+                    return "InvalidJSONResponse";
                 }
 
             } else {
                 System.out.println("Request failed: " + response.code());
-
+                return "HTTP_" + response.code();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ConnectionFailed";
         }
-        return "ConnectionFailed";
-
     }
+
 
     // 注册帐号
     public static String signup(ArrayList<String> arrayList) throws IOException {
@@ -193,23 +187,39 @@ public final class VolunteerDao {
             }
         }
         return "ConnectionFailed";
-
     }
-
     @NonNull
     private static String getString(ArrayList<String> arrayList) {
-        String name = arrayList.get(0);
-        String password = arrayList.get(1);
-        String f_name = arrayList.get(2);
-        String l_name = arrayList.get(3);
-        String age = arrayList.get(4);
-        String email = arrayList.get(5);
-        String gender = arrayList.get(6);
-        String degree = arrayList.get(7);
-        String birthday = arrayList.get(8);
-        String hobby = arrayList.get(9);
-        String grade = arrayList.get(10);
-        return "name="+name+"&password="+password+"&accountType=volunteer&f="+f_name+"&l="+l_name+"&a="+age+"&e="+email+"&g="+gender+"&d="+degree+"&b="+birthday+"&h="+hobby+"&grade="+grade;
+        try {
+            String name = arrayList.get(0);
+            String password = arrayList.get(1);
+            String f_name = arrayList.get(2);
+            String l_name = arrayList.get(3);
+            String age = arrayList.get(4);
+            String email = arrayList.get(5);
+            String gender = arrayList.get(6);
+            String degree = arrayList.get(7);
+            String birthday = arrayList.get(8);
+            String hobby = arrayList.get(9);
+            String grade = arrayList.get(10);
+
+
+            return "name=" + URLEncoder.encode(name, "UTF-8") +
+                    "&password=" + URLEncoder.encode(password, "UTF-8") +
+                    "&accountType=volunteer" +
+                    "&f=" + URLEncoder.encode(f_name, "UTF-8") +
+                    "&l=" + URLEncoder.encode(l_name, "UTF-8") +
+                    "&a=" + URLEncoder.encode(age, "UTF-8") +
+                    "&e=" + URLEncoder.encode(email, "UTF-8") +
+                    "&g=" + URLEncoder.encode(gender, "UTF-8") +
+                    "&d=" + URLEncoder.encode(degree, "UTF-8") +
+                    "&b=" + URLEncoder.encode(birthday, "UTF-8") +
+                    "&h=" + URLEncoder.encode(hobby, "UTF-8") +
+                    "&grade=" + URLEncoder.encode(grade, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.e("UserDao", "URL编码异常", e);
+            return "";
+        }
     }
 
     // 更新用户信息
@@ -240,7 +250,6 @@ public final class VolunteerDao {
         }
         return "ConnectionFailed";
     }
-
     @NonNull
     private static String getAppendURL(ArrayList<String> arrayList) {
         String username = arrayList.get(0);
@@ -253,13 +262,9 @@ public final class VolunteerDao {
         String birthday = arrayList.get(7);
         String hobby = arrayList.get(8);
         String grade = arrayList.get(9);
-
         return "name="+username+"&type=volunteer&f="+f_name+"&l="+l_name+"&a="+age+"&e="+email+"&g="+gender+"&d="+degree+"&b="+birthday+"&h="+hobby+"&grade="+grade;
-
     }
-
 
     public static void shutdown(){}
 
-    
 }

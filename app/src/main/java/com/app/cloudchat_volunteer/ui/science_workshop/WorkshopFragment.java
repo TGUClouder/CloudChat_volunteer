@@ -2,9 +2,11 @@ package com.app.cloudchat_volunteer.ui.science_workshop;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -41,6 +43,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class WorkshopFragment extends Fragment {
 
@@ -50,7 +53,10 @@ public class WorkshopFragment extends Fragment {
     private final HashMap<String, ArrayList<String>> voteMap = new HashMap<>();
     private WorkshopViewModel workshopViewModel;
     private VoteAdapter adapter;
-    private String USERNAME = "vote_admin";
+    private SharedPreferences sharedPreferences;
+    private static final String PREF_NAME = "UserPrefs";
+    private static final String KEY_USERNAME = "username";
+    private String USERNAME = "";
     private String theme;
 
 
@@ -71,16 +77,17 @@ public class WorkshopFragment extends Fragment {
         final Button button_vote = binding.voteButton;
         final TextView textView = binding.textPushing;
         final ImageView imageView_live = binding.liveImageview;
+        // 初始化 SharedPreferences
+        sharedPreferences = requireActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
 
 
         // 动作绑定
-        GetPushingMessage("暂无消息");
+        GetPushingMessage("default","default");
 
         button_vote.setOnClickListener(this::ShowVotes);
 
         imageView_live.setOnClickListener(this::ShowLive);
-        textView.setOnClickListener(this::ShowPushing);
 
 
 //        final TextView textView = binding.textWorkshop;
@@ -123,14 +130,22 @@ public class WorkshopFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         // 数据获取
         workshopViewModel.getVoteLiveData().observe(getViewLifecycleOwner(), new Observer<HashMap<String, ArrayList<String>>>() {
             @Override
             public void onChanged(HashMap<String, ArrayList<String>> hashMap) {
                 for(String key:hashMap.keySet()){
+                    ArrayList<String> res = hashMap.get(key);
+                    if(res!=null&&res.size()>=2){
+                        if(Integer.parseInt(res.get(6))==1){
+                            GetPushingMessage(res.get(1),res.get(0));
+                        }
+                    }
                     voteMap.put(key,hashMap.get(key));
                     adapter.addRow(key, hashMap.get(key));
                 }
+
             }
         });
 
@@ -195,8 +210,16 @@ public class WorkshopFragment extends Fragment {
     }
 
     // GetTextPushingFromDatabase
-    private void GetPushingMessage(String message){
-        this.binding.textPushing.setText(message);
+    private void GetPushingMessage(String owner, String top_name){
+        USERNAME = sharedPreferences.getString(KEY_USERNAME, "").trim();
+        if(owner.equals("default")&&top_name.equals("default")){
+            this.binding.textPushing.setText("暂无消息");
+        }
+        else if(owner.equals(USERNAME)){
+            this.binding.textPushing.setText("恭喜你，你创建的投票: "+top_name+" 领先！");
+        }else{
+            this.binding.textPushing.setText("很遗憾，目前领先的投票为："+owner+" 的 "+top_name);
+        }
     }
 
 
@@ -469,8 +492,6 @@ public class WorkshopFragment extends Fragment {
         binding = null;
     }
 
-    private void ShowPushing(View view) {
-        Toast.makeText(getContext(), this.binding.textPushing.getText(), Toast.LENGTH_SHORT).show();
-    }
+
 
 }

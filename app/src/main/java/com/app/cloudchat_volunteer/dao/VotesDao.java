@@ -60,12 +60,14 @@ public final class VotesDao {
                         String pros = voteDetails.getString("pros");
                         String start = voteDetails.getString("start");
                         String end = voteDetails.getString("end");
+                        String rank = voteDetails.getString("rank");
                         arrayList.add(name);
                         arrayList.add(username);
                         arrayList.add(details);
                         arrayList.add(pros);
                         arrayList.add(start);
                         arrayList.add(end);
+                        arrayList.add(rank);
                         map.put(voteID, arrayList);
 
                     }

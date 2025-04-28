@@ -137,7 +137,7 @@ public class LiveActivity extends AppCompatActivity {
      */
     private void togglePushing() {
         if (!isPushing) {
-            String pushUrl = "rtmp://182.92.183.192/live/livestream";
+            String pushUrl = "rtmp://182.92.11.42/live/livestream";
             try {
                 long timestampInMilliseconds = System.currentTimeMillis();
                 Toast.makeText(this, "推流已启动-"+theme+":"+timestampInMilliseconds, Toast.LENGTH_SHORT).show();

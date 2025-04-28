@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/text_pushing"
         android:layout_width="274dp"
-        android:layout_height="97dp"
+        android:layout_height="150dp"
         android:layout_marginTop="192dp"
         android:layout_marginEnd="68dp"
         android:text="这里是消息推送(后续实现)"
