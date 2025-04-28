@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -12,7 +13,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -31,7 +34,23 @@ import com.alivc.live.pusher.AlivcVideoEncodeGopEnum;
 import com.alivc.live.pusher.AlivcPreviewOrientationEnum;
 import com.app.cloudchat_volunteer.dao.ReplayDao;
 
+import master.flame.danmaku.controller.DrawHandler;
+import master.flame.danmaku.controller.IDanmakuView;
+import master.flame.danmaku.danmaku.model.BaseDanmaku;
+import master.flame.danmaku.danmaku.model.DanmakuTimer;
+import master.flame.danmaku.danmaku.model.IDanmakus;
+import master.flame.danmaku.danmaku.model.android.DanmakuContext;
+import master.flame.danmaku.danmaku.model.android.Danmakus;
+import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
+import master.flame.danmaku.ui.widget.DanmakuView;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 public class LiveActivity extends AppCompatActivity {
@@ -42,10 +61,14 @@ public class LiveActivity extends AppCompatActivity {
     private ImageButton switchCameraButton;
 
     private boolean isPushing = false;
+    private DanmakuView danmakuView;
+    private DanmakuContext danmakuContext;
+    private WebSocket webSocket;
+    private OkHttpClient client;
 
     private AlivcLivePushConfig mPushConfig;
     private AlivcLivePusher mAliLivePusher;
-
+    private static final String WS_URL = "ws://47.94.207.38:6000";
     private static final int REQUEST_MEDIA_PERMISSION = 300; // 权限请求码
     String theme;
     long mil_sec;
@@ -59,7 +82,7 @@ public class LiveActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_live);
-
+        danmakuView = findViewById(R.id.danmaku_view);
         switchCameraButton = findViewById(R.id.interactiveCameraButton);
         surfaceView = findViewById(R.id.interactiveView);
         startPushButton = findViewById(R.id.interactiveStreaming);
@@ -109,7 +132,8 @@ public class LiveActivity extends AppCompatActivity {
                 }
             }
         });
-
+        initDanmaku();
+        connectWebSocket();
         initAliPush();
     }
 
@@ -131,7 +155,68 @@ public class LiveActivity extends AppCompatActivity {
             Toast.makeText(this, "推流初始化失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+    private void addDanmaku(String text, boolean isSelf) {
+        if (danmakuView == null || !danmakuView.isPrepared()) {
+            Log.d(TAG, "DanmakuView is not prepared.");
+            return;
+        }
 
+        // 创建弹幕
+        BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+        if (danmaku == null) return;
+
+        // 设置弹幕属性
+        danmaku.text = text;
+        danmaku.textSize = 60f;
+        danmaku.textColor = Color.WHITE;
+        danmaku.setTime(danmakuView.getCurrentTime());
+        danmaku.priority = 1;
+        danmaku.borderColor = isSelf ? Color.YELLOW : Color.TRANSPARENT;
+
+        danmakuView.addDanmaku(danmaku);
+        Log.d(TAG, "Danmaku added: " + text);
+    }
+
+    private void initDanmaku() {
+        danmakuContext = DanmakuContext.create();
+        danmakuView.setCallback(new DrawHandler.Callback() {
+            @Override public void prepared() { danmakuView.start(); }
+            @Override public void updateTimer(DanmakuTimer timer) {}
+            @Override public void drawingFinished() {}
+            @Override public void danmakuShown(BaseDanmaku danmaku) {}
+        });
+
+        danmakuView.prepare(new BaseDanmakuParser() {
+            @Override
+            protected IDanmakus parse() {
+                return new Danmakus();
+            }
+        }, danmakuContext);
+
+        danmakuView.enableDanmakuDrawingCache(true);
+    }
+    private void connectWebSocket() {
+        client = new OkHttpClient.Builder()
+                .readTimeout(3, TimeUnit.SECONDS)
+                .build();
+
+        Request request = new Request.Builder().url(WS_URL).build();
+        webSocket = client.newWebSocket(request, new WebSocketListener() {
+            @Override public void onOpen(WebSocket webSocket, Response response) {}
+
+            @Override public void onMessage(WebSocket webSocket, String text) {
+                runOnUiThread(() -> addDanmaku(text, false));
+            }
+
+            @Override public void onClosing(WebSocket webSocket, int code, String reason) {
+                webSocket.close(1000, null);
+            }
+
+            @Override public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+                Log.e("PlayerActivity", "WebSocket error", t);
+            }
+        });
+    }
     /**
      * 切换推流状态：未推流时启动推流；已推流时结束推流
      */
@@ -246,6 +331,9 @@ public class LiveActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        if (danmakuView != null && danmakuView.isPrepared() && danmakuView.isPaused()) {
+            danmakuView.resume();
+        }
     }
 
     @Override
@@ -258,6 +346,9 @@ public class LiveActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if (danmakuView != null && danmakuView.isPrepared()) {
+            danmakuView.pause();
         }
     }
 
@@ -272,5 +363,19 @@ public class LiveActivity extends AppCompatActivity {
             }
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (danmakuView != null) {
+            danmakuView.release();
+        }
+        if (webSocket != null) {
+            webSocket.close(1000, "Activity stopped");
+        }
+        if (client != null) {
+            client.dispatcher().executorService().shutdown();
+        }
     }
 }

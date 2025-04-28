@@ -1,10 +1,22 @@
 package com.app.cloudchat_volunteer.dao;
 import android.util.Log;
 import androidx.annotation.NonNull;
-import com.google.gson.Gson;
-import java.io.IOException;
+
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import com.app.cloudchat_volunteer.json.ErrorResponse;
+import com.app.cloudchat_volunteer.json.IdResponse;
+import com.app.cloudchat_volunteer.json.NullMessageResponse;
+import com.app.cloudchat_volunteer.json.PasswordResponse;
+import com.app.cloudchat_volunteer.json.StatusResponse;
+import com.app.cloudchat_volunteer.json.UserInfoResponse;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import java.io.IOException;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import okhttp3.MediaType;
@@ -55,6 +67,7 @@ public final class VolunteerDao {
     public static ArrayList<String> get_userinfo(String username)throws IOException{
         ArrayList<String> arrayList = new ArrayList<>();
         String appendURL = "user_info?accountName="+username;
+
         Request request = new Request.Builder()
                 .url(baseURL+appendURL)
                 .build();
@@ -120,6 +133,7 @@ public final class VolunteerDao {
     }
 
     // 更新密码
+
     public static String update_password(String username, String new_password) throws IOException {
         String appendURL = "accountType=volunteer&accountName=" + username + "&password=" + new_password;
         Request request = new Request.Builder()
