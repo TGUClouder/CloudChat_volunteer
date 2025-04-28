@@ -1,10 +1,6 @@
 package com.app.cloudchat_volunteer.dao;
-
-
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.app.cloudchat_volunteer.json.ErrorResponse;
 import com.app.cloudchat_volunteer.json.IdResponse;
 import com.app.cloudchat_volunteer.json.NullMessageResponse;
@@ -12,13 +8,11 @@ import com.app.cloudchat_volunteer.json.PasswordResponse;
 import com.app.cloudchat_volunteer.json.StatusResponse;
 import com.app.cloudchat_volunteer.json.UserInfoResponse;
 import com.google.gson.Gson;
-
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -66,7 +60,7 @@ public final class VolunteerDao {
         ArrayList<String> arrayList = new ArrayList<>();
 
 
-        String appendURL = "user_info?accountType=volunteer&accountName="+username;
+        String appendURL = "user_info?accountName="+username;
 
         Request request = new Request.Builder()
                 .url(baseURL+appendURL)
@@ -137,33 +131,43 @@ public final class VolunteerDao {
 
     // 更新密码
 
-
-    public static String update_password(String username, String new_password) throws IOException{
-        String appendURL = "accountType=volunteer&accountName="+username+"&password="+new_password;
+    public static String update_password(String username, String new_password) throws IOException {
+        String appendURL = "accountType=volunteer&accountName=" + username + "&password=" + new_password;
         Request request = new Request.Builder()
-                .url(baseURL+tableUrl_account+"?"+appendURL)
-                .put(RequestBody.create("",null))
+                .url(baseURL + tableUrl_account + "?" + appendURL)
+                .put(RequestBody.create("", null))
                 .build();
-        try(Response response = okHttpClient.newCall(request).execute()){
-            if (response.isSuccessful() && response.body() != null) {
-                String string = response.body().string();
-                Gson gson = new Gson();
-                if(string.contains("error")){
-                    ErrorResponse errorResponse = gson.fromJson(string, ErrorResponse.class);
-                    return errorResponse.getError();
-                }else{
-                    StatusResponse statusResponse = gson.fromJson(string, StatusResponse.class);
 
-                    return statusResponse.getMessage().getStatus();
+        try (Response response = okHttpClient.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                String string = response.body().string().trim();
+                if (string.isEmpty()) {
+                    System.out.println("Server returned empty response");
+                    return "EmptyResponse";
+                }
+                try {
+                    Gson gson = new Gson();
+                    if (string.contains("error")) {
+                        ErrorResponse errorResponse = gson.fromJson(string, ErrorResponse.class);
+                        return errorResponse.getError();
+                    } else {
+                        StatusResponse statusResponse = gson.fromJson(string, StatusResponse.class);
+                        return statusResponse.getMessage().getStatus();
+                    }
+                } catch (JsonSyntaxException e) {
+                    System.out.println("JSON Parsing Error: " + e.getMessage());
+                    System.out.println("Server Response: " + string);
+                    return "InvalidJSONResponse";
                 }
 
             } else {
                 System.out.println("Request failed: " + response.code());
-
+                return "HTTP_" + response.code();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ConnectionFailed";
         }
-        return "ConnectionFailed";
-
     }
 
     // 注册帐号
@@ -261,5 +265,5 @@ public final class VolunteerDao {
 
     public static void shutdown(){}
 
-    
+
 }

@@ -93,7 +93,10 @@ public class TreeFragment extends Fragment {
             Map<String, String> selectedUser = userList.get(selectedPosition);
             String message = "选择的用户: " + selectedUser.get("first_name") + " " + selectedUser.get("last_name")
                     + ", 年级: " + selectedUser.get("grade") + ", 兴趣: " + selectedUser.get("hobby") + " 提交成功";
-            Navigation.findNavController(v).navigate(R.id.action_treeFragment_to_chatFragment);
+            Bundle bundle = new Bundle();
+            bundle.putString("toUsername", selectedUser.get("username")); // 或者是 user_id、target_id，取决于你的 Map 结构
+            Navigation.findNavController(v).navigate(R.id.action_treeFragment_to_chatFragment, bundle);
+
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
         });
