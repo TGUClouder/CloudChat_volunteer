@@ -65,7 +65,6 @@ public class LiveActivity extends AppCompatActivity {
     private DanmakuContext danmakuContext;
     private WebSocket webSocket;
     private OkHttpClient client;
-
     private AlivcLivePushConfig mPushConfig;
     private AlivcLivePusher mAliLivePusher;
     private static final String WS_URL = "ws://47.94.207.38:6000";
@@ -217,12 +216,13 @@ public class LiveActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * 切换推流状态：未推流时启动推流；已推流时结束推流
      */
     private void togglePushing() {
         if (!isPushing) {
-            String pushUrl = "rtmp://182.92.11.42/live/livestream";
+            String pushUrl = "rtmp://59.110.173.159/live/livestream";
             try {
                 long timestampInMilliseconds = System.currentTimeMillis();
                 Toast.makeText(this, "推流已启动-"+theme+":"+timestampInMilliseconds, Toast.LENGTH_SHORT).show();

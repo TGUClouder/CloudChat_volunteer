@@ -64,8 +64,6 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-    implementation(files("D:\\BaiduNetdiskDownload\\CloudChat_volunteer-Branch_R\\app\\libs\\AliVCSDK_BasicLive-7.0.0.aar"))
-    implementation(files("D:\\BaiduNetdiskDownload\\CloudChat_volunteer-Branch_R\\app\\libs\\DanmakuFlameMaster-0.9.25.aar"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
